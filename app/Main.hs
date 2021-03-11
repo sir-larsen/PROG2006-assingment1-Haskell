@@ -2,6 +2,7 @@ module Main where
 
 import Lib
 
+import System.Random
 import System.Environment
 import Data.List
 
@@ -94,13 +95,45 @@ checkIsFree2 board i = if board !! i == Blank then True else False
 possibleMoves4 :: [Cell] -> [Int]
 possibleMoves4 board = filter (\x -> checkIsFree2 board x) [0..8]
 
+--getMove :: [Cell] -> IO ()
+getMove board = do
+    let moves = possibleMoves4 board
+    num <- randomRIO (0, 8) :: IO Int
+    --return num
+    --putStrLn("randnum" ++ show num)
+    let x = elem num moves
+    if x == True then return num
+    else do
+        getMove board
 
+getMove2 board = do
+    gen <- getStdGen
+    let (rNum, _) = randomR (0,8) gen :: (Int, StdGen)
+    let moves = possibleMoves4 board
+    let x = elem rNum moves
+    newStdGen
+    if x == True then return rNum
+    else do
+        newStdGen
+        getMove2 board
 
 
 assignCell :: String -> Symbol -> [Cell] -> [Cell]
 assignCell location symbol board = do
     let Just x = getBoardIndex location
     ((take x board) ++ [Occupied symbol] ++ (drop (x+1) board))
+
+assignCell2 :: Int -> Symbol -> [Cell] -> [Cell]
+assignCell2 location symbol board = ((take location board) ++ [Occupied symbol] ++ (drop (location+1) board))
+
+getNum = do
+    gen <- getStdGen
+    let (rNum, _) = randomR (0,8) gen :: (Int, StdGen)
+    return rNum
+
+
+--getRegInt :: IO Int -> Int
+--getRegInt 0 = 0
 
 gameLoopHH :: Bool -> Symbol -> [Cell] -> IO ()
 gameLoopHH play sym board = 
@@ -131,25 +164,72 @@ gameLoopHH play sym board =
             putStrLn "GAME OVER O LOST"
             return ()
 
-    
+gameLoopHM :: Bool -> Symbol -> [Cell] -> IO ()
+gameLoopHM play sym board = do
+    if play == True then do
+        renderBoard board
+        cell <- getLine
+        let index = getBoardIndex2 cell
+        let check = checkIsFree2 board index
+        putStrLn(show check)
+        if check == True then do
+            let newBoard = assignCell cell sym board
+            --Check winner
+            --Check draw
+            if length (possibleMoves4 newBoard) == 0 then do
+                renderBoard newBoard
+                putStrLn "Alle brikker spilt"
+                return ()
+            else do
+                gameLoopHM False O newBoard
+        else do
+            putStrLn "GAME OVER X LOST"
+            return ()
+    else do
+        --let loop = do
+        num <- getStdRandom $ randomR (0, 8 :: Int)
+        let moves = possibleMoves4 board
+        let x = elem num moves
 
-
-
-
-
-
-
-
-
-
-
+        if x == True then do
+            let newBoard = assignCell2 num sym board
+            gameLoopHM True X newBoard
+        else do gameLoopHM False O board
+        --loop
 
 main :: IO ()
 main = do
     someFunc
     let newBoard = replicate 9 Blank
+    --let y = getNum
+    --let z = getNum
+    --let h = getNum
+
+    num <- randomRIO (0, 8) :: IO Int
+    putStrLn("randnum" ++ show num)
+
+    num2 <- randomRIO (0, 8) :: IO Int
+    putStrLn("randnum" ++ show num2)
+
+    num3 <- randomRIO (0, 8) :: IO Int
+    putStrLn("randnum" ++ show num3)
+
+    let x = assignCell2 num X newBoard
+    --renderBoard x
+    --putStrLn " "
+
+    --let f = assignCell2 num2 X x
+    --renderBoard f
+
+    --let h = getMove f
+    --let m = getRegInt h
+
+    let h = getMove2 newBoard
+    let f = getMove2 newBoard
+    --print f
+
     --renderBoard newBoard
-    gameLoopHH True X newBoard
+    gameLoopHM True X newBoard
     --putStrLn "\n"
     --let x = assignCell "6" X newBoard
     --renderBoard x

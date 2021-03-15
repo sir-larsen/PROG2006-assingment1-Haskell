@@ -65,6 +65,13 @@ getBoardIndex2 "7" = 6
 getBoardIndex2 "8" = 7
 getBoardIndex2 "9" = 8
 
+-- | [Int] -> currently oriented list [Int] -> Way we want it oriented -> [Cell] board to be rotated
+{-|rotate :: [Int] -> [Int] -> [Cell] -> [Cell] 
+rotate ori nOri board = do
+    let melt = zip(nOri, board)
+-}
+
+
 
 possibleMoves2 :: [Cell] -> [Cell]
 possibleMoves2 board = tail board 
@@ -131,6 +138,28 @@ getNum = do
     let (rNum, _) = randomR (0,8) gen :: (Int, StdGen)
     return rNum
 
+checkRot :: [String] -> Bool
+checkRot xs
+    | length xs == 1 = False
+    | otherwise      = True
+
+checkRotRight :: String -> Bool
+checkRotRight xs
+    | xs == "right" = True
+    | otherwise     = False
+ 
+
+--checkWin :: [Cell] -> Bool
+--checkWin board = 
+
+--swap :: [Cell] -> [Cell]
+--swap xs = case xs of a:b:c:d:e:f:g:h:i:xs -> c:b:a:d:e:f:g:h:i:xs
+
+rotSwapRight :: [Cell] -> [Cell]
+rotSwapRight xs = case xs of a:b:c:d:e:f:g:h:i:xs -> g:d:c:h:e:b:i:f:a:xs
+
+rotSwapLeft :: [Cell] -> [Cell]
+rotSwapLeft xs = case xs of a:b:c:d:e:f:g:h:i:xs -> a:f:i:b:e:h:c:d:g:xs
 
 --getRegInt :: IO Int -> Int
 --getRegInt 0 = 0
@@ -169,6 +198,7 @@ gameLoopHM play sym board = do
     if play == True then do
         renderBoard board
         cell <- getLine
+
         let index = getBoardIndex2 cell
         let check = checkIsFree2 board index
         putStrLn(show check)
@@ -196,6 +226,64 @@ gameLoopHM play sym board = do
             gameLoopHM True X newBoard
         else do gameLoopHM False O board
         --loop
+
+gameLoopHM2 :: Bool -> Symbol -> [Cell] -> IO ()
+gameLoopHM2 play sym board = do
+    if play == True then do
+        putStrLn "INNI I TRUE"
+        renderBoard board
+        cell <- getLine
+
+        let command = words cell
+        if checkRot command == True then do
+            putStrLn "ROTASJON"
+        else do
+            putStrLn "IKKE ROTASJON"
+
+        putStr "Index: "
+        putStrLn (command !! 0)
+    
+
+        let index = getBoardIndex2 (command !! 0)
+        let check = checkIsFree2 board index
+        putStrLn(show check)
+        if check == True then do
+            putStrLn "INNI LEDIG"
+            --let newBoard = assignCell (command !! 0) sym board
+            if checkRot command == True then do
+                if checkRotRight (command !! 1) == True then do
+                    putStrLn "INNI ROTATE RIGHT"
+                    let newBoard = assignCell (command !! 0) sym board
+                    let newBoard2 = rotSwapRight newBoard
+                    --Check winner
+                    --Check draw
+                    gameLoopHM2 False O newBoard2
+                else do
+                    putStrLn "INNI ROTATE LEFT"
+                    let newBoard = assignCell (command !! 0) sym board
+                    let newBoard2 = rotSwapLeft newBoard
+                    --Check winner
+                    --Check draw
+                    gameLoopHM2 False O newBoard2
+            else do
+                putStrLn "INNI PLASSER UTEN ROTASJON"
+                let newBoard = assignCell (command !! 0) sym board
+                --Check winner
+                --Check draw
+                gameLoopHM2 False O newBoard
+        else do
+            putStrLn "GAME OVER X LOST"
+            return ()
+    else do
+        --let loop = do
+        num <- getStdRandom $ randomR (0, 8 :: Int)
+        let moves = possibleMoves4 board
+        let x = elem num moves
+
+        if x == True then do
+            let newBoard = assignCell2 num sym board
+            gameLoopHM2 True X newBoard
+        else do gameLoopHM2 False O board
 
 main :: IO ()
 main = do
@@ -229,7 +317,7 @@ main = do
     --print f
 
     --renderBoard newBoard
-    gameLoopHM True X newBoard
+    gameLoopHM2 True X newBoard
     --putStrLn "\n"
     --let x = assignCell "6" X newBoard
     --renderBoard x

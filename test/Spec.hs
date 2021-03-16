@@ -1,2 +1,5 @@
+import Test.DocTest(doctest)
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = do
+    doctest ["-isrc", "app/Main.hs"]

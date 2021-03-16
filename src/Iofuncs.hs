@@ -20,6 +20,8 @@ renderBoard board = do
         thirdRow  = drop 6 board
 
 -- | Human machine game loop
+-- DRY concept gets kinda thrown out the window here and with the subsequent game loops
+-- Aware of the fact that there is room for lots of improvement in the code
 gameLoopHM2 :: Bool -> Symbol -> [Cell] -> IO ()
 gameLoopHM2 play sym board = do
     if play == True then do
@@ -86,7 +88,7 @@ gameLoopHM2 play sym board = do
             putStrLn "GAME OVER X LOST"
             return ()
     else do
-        --let loop = do
+        --CPU uses random movement
         num <- getStdRandom $ randomR (0, 8 :: Int)
         let moves = possibleMoves4 board
         let x = elem num moves
@@ -126,9 +128,9 @@ gameLoopHH play sym board = do
                     let newBoard2 = rotSwapRight newBoard
                     
                     --Check winner
-                    let win = checkWin sym newBoard2
-                    let win2 = checkWin O newBoard2
-                    if win == True || win2 == True then do
+                    let win = checkWin sym newBoard2       -- Have to check both for win because
+                    let win2 = checkWin O newBoard2        -- of bug that can happen with the switching
+                    if win == True || win2 == True then do -- of the 1 and 3 positions. Same in the other else branch
                         renderBoard newBoard2
                         winMessage sym
                         return ()

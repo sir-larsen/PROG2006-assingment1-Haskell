@@ -11,11 +11,16 @@ main = do
     args <- getArgs
     let newBoard = replicate 9 Blank
 
-    if (args !! 0) == "hm" then gameLoopHM2 True X newBoard
-    else if (args !! 0) == "hh" then gameLoopHH True X newBoard
-    else if (args !! 0) == "mm" then gameLoopMM True X newBoard
-    else if (args !! 0) == "help" then helper
-    else gameLoopHM2 True X newBoard
+    if (args /= []) then do
+        if (args !! 0) == "hm" then gameLoopHM2 True X newBoard
+        else if (args !! 0) == "hh" then gameLoopHH True X newBoard
+        else if (args !! 0) == "mm" then gameLoopMM True X newBoard
+        else if (args !! 0) == "help" then helper
+        else do
+            putStrLn "Something went wrong"
+            return () 
+    else 
+        gameLoopHM2 True X newBoard
     
 helper:: IO ()
 helper = do

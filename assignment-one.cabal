@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Iofuncs
   other-modules:
       Paths_assignment_one
   hs-source-dirs:

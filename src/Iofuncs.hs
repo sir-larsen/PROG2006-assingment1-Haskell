@@ -9,6 +9,16 @@ winMessage sym = do
     let line = "GAME OVER " ++ show sym ++ " WON"
     putStrLn line
 
+-- | Function for rendering of game board
+renderBoard :: [Cell] -> IO ()
+renderBoard board = do
+  putStrLn $ "# " ++ renderRow firstRow
+  putStrLn $ "# " ++ renderRow secondRow
+  putStrLn $ "# " ++ renderRow thirdRow
+  where firstRow  = take 3 board
+        secondRow = drop 3 . take 6 $ board
+        thirdRow  = drop 6 board
+
 -- | Human machine game loop
 gameLoopHM2 :: Bool -> Symbol -> [Cell] -> IO ()
 gameLoopHM2 play sym board = do

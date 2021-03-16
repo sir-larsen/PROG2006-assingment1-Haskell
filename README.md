@@ -25,9 +25,11 @@ stack test inside root to run the doctests
 * Contains the pure functions
 
 ## Time logging
-Thinking about various problems and designs: 7-12 hours\n
-searching for things: 4-7 hours\n
-Own coding/documenting: ~25 hours\n
+Thinking about various problems and designs: 7-12 hours
+
+searching for things: 4-7 hours
+
+Own coding/documenting: ~25 hours
 
 ## Collaboration and sources
 Discussed some of the problems with Sander Fuhr

@@ -8,7 +8,6 @@ import Data.List
 
 main :: IO ()
 main = do
-    --let newBoard = replicate 9 Blank
     args <- getArgs
     let newBoard = replicate 9 Blank
 

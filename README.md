@@ -32,7 +32,7 @@ searching for things: 4-7 hours
 Own coding/documenting: ~25 hours
 
 ## Collaboration and sources
-Discussed some of the problems with Sander Fuhr
+Discussed some of the problems and shared small snippets with Sander Fuhr
 
 Also took inspiration from
 

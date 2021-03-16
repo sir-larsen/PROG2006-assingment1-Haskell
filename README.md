@@ -18,7 +18,7 @@ Ex: -stack run help-
 
 -${number} ${direction} to place and rotate. EX: -5 right- -2 left-
 
-Did not get the time to implement the choosing of marks/symbols functionality, however the way I would implement it would be to create a function that returns the opposite "Symbol" (mark), and send this as the paramter to my functions, as they already support this. This way you could choose the mark to play as. The way it sits now they are hard coded.
+Did not get the time to implement the choosing of marks/symbols functionality, however the way I would implement it would be to create a function that returns the opposite "Symbol" (mark), and send this as the paramter to my game loop functions, as they already support this. This way you could choose the mark to play as. The way it sits now they are hard coded.
 
 ## `Main`
 * Functions for command line arguments

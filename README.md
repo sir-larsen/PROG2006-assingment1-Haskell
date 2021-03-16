@@ -7,13 +7,18 @@ Tic Tac Toe game with rotation mechanic and CPU to play against.
 
 * Four different flags to start with: hm (human vs machine), mm (machine vs machine), hh (human vs human) and help.
 
-Example: stack run hm
 
-Ex: stack run help
+Example: -stack run hm-
 
-stack run inside root to run the program
+Ex: -stack run help-
 
-stack test inside root to run the doctests
+-stack run- inside root to run the program
+
+-stack test- inside root to run the doctests
+
+-${number} ${direction} to place and rotate. EX: -5 right- -2 left-
+
+Did not get the time to implement the choosing of marks/symbols functionality, however the way I would implement it would be to create a function that returns the opposite "Symbol" (mark), and send this as the paramter to my functions, as they already support this. This way you could choose the mark to play as. The way it sits now they are hard coded.
 
 ## `Main`
 * Functions for command line arguments

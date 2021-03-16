@@ -5,7 +5,6 @@ import Iofuncs
 import System.Environment
 import Data.List
 
---let newBoard = replicate 9 Blank
 
 main :: IO ()
 main = do
@@ -19,10 +18,6 @@ main = do
     else if (args !! 0) == "help" then helper
     else gameLoopHM2 True X newBoard
     
-    
-    --gameLoopHM2 True X newBoard
-    --gameLoopHH True X newBoard
-    --gameLoopMM True X newBoard
 helper:: IO ()
 helper = do
     putStrLn "Start with hm flag for human vs machine: hm"

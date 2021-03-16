@@ -34,3 +34,4 @@ Discussed some of the problems with Sander Fuhr
 
 Also took inspiration from
 https://github.com/nt591/haskell-playground/blob/master/random/tictactoe.hs
+https://gist.github.com/nick-paul/6a7df0112fe342ee828c9f6bd44a41ad
